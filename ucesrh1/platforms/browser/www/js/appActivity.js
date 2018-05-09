@@ -1,24 +1,20 @@
-﻿    // create the code to get the questions data using an XMLHttpRequest
+﻿    // XMLHttpRequest to pull current question information from the database.
     function getQuestions() {
       client = new XMLHttpRequest();
 
     client.open('GET','http://developer.cege.ucl.ac.uk:30290/getGeoJSON/quizlet/geom');
       client.onreadystatechange = questionResponse; 
-      // note don't use questionResponse() with brackets as that doesn't work
       client.send();
     }
-    // create the code to wait for the response from the data server, and process the response once it is received
     function questionResponse() {
-    // this function listens out for the server to say that the data is ready - i.e. has state 4
     if (client.readyState == 4) {
-      // once the data is ready, process the data
       var questiondata = client.responseText;
       loadquestionlayer(questiondata);
       }
     }
 
 
- 
+    //Global array defined for proximity funtionality: Proximity.js
     var app_array = [];
     // convert the received data - which is text - to JSON format and add it to the map
     function loadquestionlayer(questiondata) {
@@ -29,9 +25,10 @@
       var questionlayer = L.geoJson(questionjson,
       {
 
-
+        //Function that holds each markers question and answers and submission functions. All appears inside leaflet popup. 
+        //Hidden values are used for answered() function which compares choosen answer to actual answer. 
         onEachFeature: function (feature, layer) {
-    layer.bindPopup(feature.properties.question+'<div> <form id="Qform" style= "text-align:center" onsubmit="return (answered()&& startAnswerUpload());"> <input type="radio" name="answer" id=check1 value="one" checked>'+feature.properties.answerone+ '<br> <input type="radio" name="answer" id=check2 value="two">'+feature.properties.answertwo+ '<br> <input type="radio" name="answer" id=check3 value="three">'+feature.properties.answerthree+ '<br> <input type="radio" name="answer" id=check4 value="four">' + feature.properties.answerfour +'<br> <input id="hidden" type="hidden" name="hidden" value='+feature.properties.correct+'><input id="question" type="hidden" name="question" value='+feature.properties.question+'> <input type="submit" name="mysubmit" value="Submit"/></form></div>');
+    layer.bindPopup(feature.properties.question+'<div> <form id="Qform" style= "text-align:center" onsubmit="return (answered()&& startAnswerUpload());"> <input type="radio" name="answer" id=check1 value="one" checked>'+feature.properties.answerone+ '<br> <input type="radio" name="answer" id=check2 value="two">'+feature.properties.answertwo+ '<br> <input type="radio" name="answer" id=check3 value="three">'+feature.properties.answerthree+ '<br> <input type="radio" name="answer" id=check4 value="four">' + feature.properties.answerfour +'<br> <input id="hidden" type="hidden" name="hidden" value='+feature.properties.correct+'><input id="question" type="hidden" name="question" value="'+feature.properties.question+'"><br /><input type="submit" name="mysubmit" value="Submit"/></form></div>');
 
   }, 
 
@@ -47,7 +44,7 @@
 mymap.fitBounds(questionlayer.getBounds()); 
 } 
 
-
+//Function for checking answer features chosen in the popup and giving user information on success. Implemented within the popup.
 function answered(){
         var chosen = document.querySelector('input[name="answer"]:checked').value;
         var correct = document.getElementById("hidden").value
@@ -61,6 +58,7 @@ function answered(){
         }
       }
 
+//Function for uploading answer information to the database into answer table.
 function startAnswerUpload() {
   var question = document.getElementById("question").value;
   var answer = document.querySelector('input[name="answer"]:checked').value;

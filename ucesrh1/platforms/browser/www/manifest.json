@@ -1,8 +1,8 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "helloworld",
-  "short_name": "helloworld",
+  "name": "UCL Quizlet",
+  "short_name": "UCL Quizlet",
   "version": "fullmaterialtemplate",
   "description": "Hello World sample application that responds to the deviceready event.",
   "author": "PhoneGap Team",

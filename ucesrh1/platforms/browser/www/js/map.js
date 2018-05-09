@@ -1,3 +1,4 @@
+        //Defining a list of basemaps from mapbox studio api: 
     var northstar = L.tileLayer('https://api.mapbox.com/styles/v1/rjhargreaves/cjcv3d22i04bp2rpza7tjx1c4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmpoYXJncmVhdmVzIiwiYSI6ImNpa3JmbDJiazAwMDF3Y20xMHoyaXowdDAifQ.78vWSemMDwn42TwMuxfODw', {maxZoom: 18,attribution: 'Map data &copy; <ahref="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,' 
       + 
@@ -21,29 +22,28 @@
       id: 'mapbox.streets'
     
     });
-  // load the map
+
+    // Define mymap variable, with centre, zoom level and layers.
     var mymap = L.map('mapid',{
       center: [51.524428, -0.134224], 
       zoom: 13,
       layers: [satellite, scenic, northstar]
     });
 
+    // Define baseMaps variable, for display within the layers navigation pane.
     var baseMaps = {
       "Satellite": satellite,
       "Scenic": scenic,
       "Plain": northstar
     };
-    // load the tiles
+
+    // Load map layers and serve to mymap.
     L.control.layers(baseMaps).addTo(mymap);
-    
+
+    //Awesome Markers global variables
     var testMarkerRed = L.AwesomeMarkers.icon({
       icon: 'play',
       markerColor: 'darkred'
-    });
-
-    var testMarkerPurp = L.AwesomeMarkers.icon({
-      icon: 'play',
-      markerColor: 'purple'
     });
 
     var testMarkerGreen = L.AwesomeMarkers.icon({
@@ -65,13 +65,14 @@
 
     var current_position, current_accuracy;
 
+//Function for constantly calling location and serving it as a marker to the map, vital in proximity function.
 function onLocationFound(e) {
-  // if position defined, then remove the existing position marker and accuracy circle from the map
   if (current_position) {
       mymap.removeLayer(current_position);
       mymap.removeLayer(current_accuracy);
   }
 
+  //GPS Accurracy radius around point, giving you an idea of location error. 
   var radius = e.accuracy / 2;
 
   current_position = L.marker(e.latlng,{icon:testMarkerBlue}).addTo(mymap)
@@ -80,6 +81,7 @@ function onLocationFound(e) {
   current_accuracy = L.circle(e.latlng, radius).addTo(mymap);
 }
 
+//Error handling for no location access
 function onLocationError(e) {
   alert(e.message);
 }
@@ -87,10 +89,9 @@ function onLocationError(e) {
 mymap.on('locationfound', onLocationFound);
 mymap.on('locationerror', onLocationError);
 
-// wrap map.locate in a function
 function locate() {
   mymap.locate({setView: false, maxZoom: 20});
 }
 
-// call locate every 3 seconds... forever
+//call locate every 3 seconds... forever
 setInterval(locate, 3000);

@@ -1,3 +1,4 @@
+//Function for proximity to questions, parsing the app_array.
 function proximity(){
   qProximity(app_array);
 }

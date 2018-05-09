@@ -111,6 +111,7 @@ html, body {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+
 }
 .demo-chart:nth-child(1) {
   color: #ACEC00;

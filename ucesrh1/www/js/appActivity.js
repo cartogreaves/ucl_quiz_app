@@ -31,14 +31,14 @@
 
 
         onEachFeature: function (feature, layer) {
-    layer.bindPopup(feature.properties.question+'<div> <form id="NPSform" style= "text-align:center" onsubmit="return (getScore()&& startAnswerUpload());"> <input type="radio" name="answer" id=check1 value="one" checked>'+feature.properties.answerone+ '<br> <input type="radio" name="answer" id=check2 value="two">'+feature.properties.answertwo+ '<br> <input type="radio" name="answer" id=check3 value="three">'+feature.properties.answerthree+ '<br> <input type="radio" name="answer" id=check4 value="four">' + feature.properties.answerfour +'<br> <input id="hidden" type="hidden" name="hidden" value='+feature.properties.correct+'><input id="question" type="hidden" name="question" value='+feature.properties.question+'> <input type="submit" name="mysubmit" value="Submit"/></form></div>');
+    layer.bindPopup(feature.properties.question+'<div> <form id="Qform" style= "text-align:center" onsubmit="return (answered()&& startAnswerUpload());"> <input type="radio" name="answer" id=check1 value="one" checked>'+feature.properties.answerone+ '<br> <input type="radio" name="answer" id=check2 value="two">'+feature.properties.answertwo+ '<br> <input type="radio" name="answer" id=check3 value="three">'+feature.properties.answerthree+ '<br> <input type="radio" name="answer" id=check4 value="four">' + feature.properties.answerfour +'<br> <input id="hidden" type="hidden" name="hidden" value='+feature.properties.correct+'><input id="question" type="hidden" name="question" value='+feature.properties.question+'> <input type="submit" name="mysubmit" value="Submit"/></form></div>');
 
   }, 
 
         // use point to layer to create the points
         pointToLayer: function (feature, latlng)
         {
-        quiz_marker = L.marker(latlng, {icon:testMarkerRed});
+        quiz_marker = L.marker(latlng, {icon:testMarkerGray});
         app_array.push(quiz_marker);
         return quiz_marker
         
@@ -48,10 +48,10 @@ mymap.fitBounds(questionlayer.getBounds());
 } 
 
 
-function getScore(){
-        var score = document.querySelector('input[name="answer"]:checked').value;
+function answered(){
+        var chosen = document.querySelector('input[name="answer"]:checked').value;
         var correct = document.getElementById("hidden").value
-        if(score==correct){
+        if(chosen==correct){
           alert('Correct Answer, Congratulations!');
           return true;
         }
@@ -86,7 +86,6 @@ if (client.readyState == 4) {
 alert("Answer Submitted");
 }
 }
-
 
 
 

@@ -7,15 +7,15 @@ function qProximity(any_array) {
 for (var i=0; i<any_array.length;i++) {
   qPos=any_array[i].getLatLng();
   var proximity = getDistanceFromLatLonInM(qPos.lat,qPos.lng,myPos.lat,myPos.lng);
-  if (proximity <= 100) {
+  if (proximity <= 40) {
     any_array[i].setIcon(testMarkerGreen);
   } else {
-    any_array[i].setIcon(testMarkerBlue).bindPopup("Your Not Close Enough Yet");
+    any_array[i].setIcon(testMarkerRed).bindPopup("Your Not Close Enough Yet");
   }
 }
 }
 
-
+//Adapted from: Calculate distance between two latitude-longitude points? (Haversine formula). (2008). Retrieved from https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula#
 function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
